@@ -46,7 +46,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 <p>* Lower (faster) time is better. Please submit your results to improve our industry average data :)</p>
                 <script>
                 jQuery(document).ready(function(){
-                    jQuery.getJSON( "http://wpperformancetester.wphreviews.com/api1.php", function( industryData ) { 
+                    jQuery.getJSON( "https://wphreviews.com/api/wpperformancetester.php", function( industryData ) { 
                         var ctx = document.getElementById("myChart").getContext("2d");
                         
                         var data = {
@@ -189,7 +189,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 </div>                                
             <br />
             <br />
-            <form method="post" action="http://wpperformancetester.wphreviews.com" class="basic-grey">
+            <form target="_blank" method="post" action="https://wphreviews.com/wpperformancetester" class="basic-grey">
                 <h2>Share Your Results &amp; Write a Review</h2>
                 <p>All submitted data may be published. Do not include any personal information you do not want publicly listed. 
                     Your data helps us maintain industry performance averages and provide users with real web hosting reviews.</p>
