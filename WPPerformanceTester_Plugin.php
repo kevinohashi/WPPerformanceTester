@@ -12,7 +12,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
             wp_die(__('You do not have sufficient permissions to access this page.', 'TEXT-DOMAIN'));
         }
         $performTest = false;
-        if ($_POST['performTest'] == true){
+        if ( isset( $_POST['performTest'] ) && $_POST['performTest'] == true ){
             $performTest=true;
         }
         ?>
@@ -32,10 +32,10 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 $arr_cfg['db.host'] = DB_HOST;
                 $arr_cfg['db.user'] = DB_USER;
                 $arr_cfg['db.pw'] = DB_PASSWORD;
-                $arr_cfg['db.name'] = DB_NAME; 
+                $arr_cfg['db.name'] = DB_NAME;
                 $arr_benchmark = test_benchmark($arr_cfg);
                 $arr_wordpress = test_wordpress();
-              
+
 
                 //charting from results goes here
                 ?>
@@ -46,9 +46,9 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 <p>* Lower (faster) time is better. Please submit your results to improve our industry average data :)</p>
                 <script>
                 jQuery(document).ready(function(){
-                    jQuery.getJSON( "https://wphreviews.com/api/wpperformancetester.php", function( industryData ) { 
+                    jQuery.getJSON( "https://wphreviews.com/api/wpperformancetester.php", function( industryData ) {
                         var ctx = document.getElementById("myChart").getContext("2d");
-                        
+
                         var data = {
                             labels: ["Math", "String", "Loops", "Conditionals", "MySql", "Server Overall", "WordPress"],
                             datasets: [
@@ -57,7 +57,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                                     fillColor: "rgba(151,187,205,0.5)",
                                     strokeColor: "rgba(151,187,205,0.8)",
                                     highlightFill: "rgba(151,187,205,0.75)",
-                                    highlightStroke: "rgba(151,187,205,1)",                                    
+                                    highlightStroke: "rgba(151,187,205,1)",
                                     data: [<?php echo $arr_benchmark['benchmark']['math']; ?>, <?php echo $arr_benchmark['benchmark']['string']; ?>, <?php echo $arr_benchmark['benchmark']['loops']; ?>, <?php echo $arr_benchmark['benchmark']['ifelse']; ?>, <?php echo $arr_benchmark['benchmark']['mysql_query_benchmark']; ?>, <?php echo $arr_benchmark['total']; ?>, <?php echo $arr_wordpress['time']; ?>]
                                 },
                                 {
@@ -185,13 +185,13 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                         <td><?php echo DB_HOST; ?></td>
                       </tr>
                     </tbody>
-                  </table>                  
-                </div>                                
+                  </table>
+                </div>
             <br />
             <br />
             <form target="_blank" method="post" action="https://wphreviews.com/wpperformancetester" class="basic-grey">
                 <h2>Share Your Results &amp; Write a Review</h2>
-                <p>All submitted data may be published. Do not include any personal information you do not want publicly listed. 
+                <p>All submitted data may be published. Do not include any personal information you do not want publicly listed.
                     Your data helps us maintain industry performance averages and provide users with real web hosting reviews.</p>
                 <input type="submit" value="Share Results Only (Do not fill out form)">
                 <input type="hidden" name="benchresult" value="<?php echo urlencode(json_encode($arr_benchmark)); ?>">
@@ -315,12 +315,10 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
 
         // Example adding a script & style just for the options administration page
         // http://plugin.michael-simpson.com/?page_id=47
-                if (strpos($_SERVER['REQUEST_URI'], $this->getSettingsSlug()) !== false) {
-                    wp_enqueue_script('chart-js', plugins_url('/js/Chart.js', __FILE__));
-                    wp_enqueue_script('jquery');
-                    wp_enqueue_style('wppt-style', plugins_url('/css/wppt.css', __FILE__));
-                    wp_enqueue_style('simptip-style', plugins_url('/css/simptip.css', __FILE__));
-                }
+        if (strpos($_SERVER['REQUEST_URI'], $this->getSettingsSlug()) !== false) {
+            // Use WP style.
+            add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
+        }
 
 
         // Add Actions & Filters
@@ -343,6 +341,15 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
 
     }
 
+    /**
+     * Enqueue all our JS and CSS files.
+     */
+    public function enqueue_scripts() {
+        wp_enqueue_script('chart-js', plugins_url('/js/Chart.js', __FILE__));
+        wp_enqueue_script('jquery');
+        wp_enqueue_style('wppt-style', plugins_url('/css/wppt.css', __FILE__));
+        wp_enqueue_style('simptip-style', plugins_url('/css/simptip.css', __FILE__));
+    }
 
 }
 
