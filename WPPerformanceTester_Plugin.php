@@ -189,7 +189,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 </div>                                
             <br />
             <br />
-            <form target="_blank" method="post" action="https://wphreviews.com/wpperformancetester" class="basic-grey">
+            <form target="_blank" method="post" action="https://wphreviews.com/wpperformancetester/" class="basic-grey">
                 <h2>Share Your Results &amp; Write a Review</h2>
                 <p>All submitted data may be published. Do not include any personal information you do not want publicly listed. 
                     Your data helps us maintain industry performance averages and provide users with real web hosting reviews.</p>
