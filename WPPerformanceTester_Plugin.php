@@ -257,7 +257,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
         $options = $this->getOptionMetaData();
         if (!empty($options)) {
             foreach ($options as $key => $arr) {
-                if (is_array($arr) && count($arr > 1)) {
+                if (is_array($arr) && count($arr) > 1) {
                     $this->addOption($key, $arr[1]);
                 }
             }
