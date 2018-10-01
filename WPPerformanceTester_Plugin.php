@@ -39,9 +39,11 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
 
                 //charting from results goes here
                 ?>
+                <h2>Performance Test Results (in seconds)</h2>
                 <div id="chartDiv">
                     <div id="legendDiv"></div>
                     <canvas id="myChart" height="400" width="600"></canvas>
+                    <p style="text-align: center; font-style: italic;">Test Type</p>
                 </div>
                 <p>* Lower (faster) time is better. Please submit your results to improve our industry average data :)</p>
                 <script>
@@ -50,7 +52,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                         var ctx = document.getElementById("myChart").getContext("2d");
                         
                         var data = {
-                            labels: ["Math", "String", "Loops", "Conditionals", "MySql", "Server Overall", "WordPress"],
+                            labels: ["Math (CPU)", "String (CPU)", "Loops (CPU)", "Conditionals (CPU)", "MySql (Database)", "Server Total (CPU + Database)", "WordPress Performance"],
                             datasets: [
                                 {
                                     label: "Your Results",
