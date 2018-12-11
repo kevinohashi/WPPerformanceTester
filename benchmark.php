@@ -35,7 +35,7 @@ function test_benchmark($arr_cfg)
     $time_start = microtime(true);
 
     $arr_return = array();
-    $arr_return['version'] = '1.0';
+    $arr_return['version'] = '1.1';
     $arr_return['sysinfo']['time'] = date("Y-m-d H:i:s");
     $arr_return['sysinfo']['php_version'] = PHP_VERSION;
     $arr_return['sysinfo']['platform'] = PHP_OS;
@@ -120,14 +120,26 @@ function test_mysql(&$arr_return, $arr_cfg)
 
     $time_start = microtime(true);
 
-    //parse out port number if exists
-    $port = 3306;//default
-    if(stripos($arr_cfg['db.host'],':')){
-        $port = substr($arr_cfg['db.host'], stripos($arr_cfg['db.host'],':')+1);
-        $arr_cfg['db.host'] = substr($arr_cfg['db.host'], 0, stripos($arr_cfg['db.host'],':'));
-    }
 
-    $link = mysqli_connect($arr_cfg['db.host'], $arr_cfg['db.user'], $arr_cfg['db.pw'], $arr_cfg['db.name'], $port);
+    //detect socket connection
+    if(stripos($arr_cfg['db.host'], '.sock')!==false){
+        //parse socket location
+        //set a default guess
+        $socket = "/var/lib/mysql.sock";
+        $serverhost = explode(':', $arr_cfg['db.host']);
+        if(count($serverhost) == 2 && $serverhost[0] == 'localhost'){
+            $socket = $serverhost[1];
+        }
+        $link = mysqli_connect('localhost', $arr_cfg['db.user'], $arr_cfg['db.pw'], $arr_cfg['db.name'], null, $socket);
+    }else{
+        //parse out port number if exists
+        $port = 3306;//default
+        if(stripos($arr_cfg['db.host'],':')){
+            $port = substr($arr_cfg['db.host'], stripos($arr_cfg['db.host'],':')+1);
+            $arr_cfg['db.host'] = substr($arr_cfg['db.host'], 0, stripos($arr_cfg['db.host'],':'));
+        }
+        $link = mysqli_connect($arr_cfg['db.host'], $arr_cfg['db.user'], $arr_cfg['db.pw'], $arr_cfg['db.name'], $port);
+    }
     $arr_return['benchmark']['mysql_connect'] = timer_diff($time_start);
 
     // //$arr_return['sysinfo']['mysql_version'] = '';

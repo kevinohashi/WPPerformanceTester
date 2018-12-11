@@ -40,3 +40,17 @@ If the script times out (max_execution_time limit) it will not show any results.
 > **Note:**
 
 > - It's always best to **BACKUP EVERYTHING** before running **ANY** new plugin or making changes to your WordPress install.
+
+Changelog
+-------------
+** 1.1 **
+
+Added support for hyperdb and socket connections.
+
+** 1.0.1 **
+
+Updated interface to make graphs and results more clear.
+
+** 1.0 **
+
+* Initial release

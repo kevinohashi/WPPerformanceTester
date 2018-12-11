@@ -28,11 +28,40 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
             <?php
             if ($performTest){
                 //do test
+                global $wpdb;
                 $arr_cfg = array();
-                $arr_cfg['db.host'] = DB_HOST;
-                $arr_cfg['db.user'] = DB_USER;
-                $arr_cfg['db.pw'] = DB_PASSWORD;
-                $arr_cfg['db.name'] = DB_NAME; 
+
+                // We need special handling for hyperdb
+                if ( is_a( $wpdb, 'hyperdb' ) && ! empty( $wpdb->hyper_servers ) ) {
+                  // Grab a `write` server for the `global` dataset and fallback to `read`.
+                  // We're not really paying attention to priority or have much in the way of error checking. Use at your own risk :)
+                  $db_server = false;
+                  if ( ! empty( $wpdb->hyper_servers['global']['write'] ) ) {
+                    foreach ( $wpdb->hyper_servers['global']['write'] as $group => $dbs ) {
+                      $db_server = current( $dbs );
+                      break;
+                    }
+                  } elseif ( ! empty( $wpdb->hyper_servers['global']['read'] ) ) {
+                    foreach ( $wpdb->hyper_servers['global']['read'] as $group => $dbs ) {
+                      $db_server = current( $dbs );
+                      break;
+                    }
+                  }
+
+                  if ( $db_server ) {
+                    $arr_cfg['db.host'] = $db_server['host'];
+                    $arr_cfg['db.user'] = $db_server['user'];
+                    $arr_cfg['db.pw'] = $db_server['password'];
+                    $arr_cfg['db.name'] = $db_server['name'];
+                  }
+                } else {
+                  // Vanilla WordPress install with standard `wpdb`
+                  $arr_cfg['db.host'] = DB_HOST;
+                  $arr_cfg['db.user'] = DB_USER;
+                  $arr_cfg['db.pw'] = DB_PASSWORD;
+                  $arr_cfg['db.name'] = DB_NAME; 
+                }
+                
                 $arr_benchmark = test_benchmark($arr_cfg);
                 $arr_wordpress = test_wordpress();
               
@@ -52,7 +81,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                         var ctx = document.getElementById("myChart").getContext("2d");
                         
                         var data = {
-                            labels: ["Math (CPU)", "String (CPU)", "Loops (CPU)", "Conditionals (CPU)", "MySql (Database)", "Server Total (CPU + Database)", "WordPress Performance"],
+                            labels: ["Math (CPU)", "String (CPU)", "Loops (CPU)", "Conditionals (CPU)", "MySql (Database)", "Server Total", "WordPress Performance"],
                             datasets: [
                                 {
                                     label: "Your Results",
