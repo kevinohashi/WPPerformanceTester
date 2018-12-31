@@ -12,7 +12,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
             wp_die(__('You do not have sufficient permissions to access this page.', 'TEXT-DOMAIN'));
         }
         $performTest = false;
-        if ($_POST['performTest'] == true){
+        if ( !empty( $_POST['performTest'] ) && ( $_POST['performTest'] == true ) ) {
             $performTest=true;
         }
         ?>
@@ -20,13 +20,13 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
             <h2>WPPerformanceTester</h2>
             <p>WPPerformanceTester performs a series of tests to see how well your server performs. The first set test the raw server performance. The second is WordPress specific. Your results will be displayed and you can see how your results stack up against others.</p>
 
-            <form method="post" action="<?php echo admin_url('tools.php?page=WPPerformanceTester_PluginSettings'); ?>">
+            <form method="post" action="<?php echo esc_url( admin_url('tools.php?page=WPPerformanceTester_PluginSettings') ); ?>">
                 <input type="hidden" name="performTest" value="true">
                 <input type="submit" value="Begin Performance Test" onclick="this.value='This may take a minute...'">
             </form>
 
             <?php
-            if ($performTest){
+            if ( $performTest ) {
                 //do test
                 global $wpdb;
                 $arr_cfg = array();
