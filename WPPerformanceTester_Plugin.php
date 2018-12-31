@@ -1,5 +1,5 @@
 <?php
-include_once( 'WPPerformanceTester_LifeCycle.php' );
+require_once( 'WPPerformanceTester_LifeCycle.php' );
 require_once( 'benchmark.php' );
 
 class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
@@ -340,43 +340,20 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
     }
 
     public function enqueue_scripts_and_style( $hook ) {
-      if ( strpos( $_SERVER['REQUEST_URI'], $this->getSettingsSlug() ) !== false ) {
-          wp_enqueue_script( 'chart-js', plugins_url('/js/Chart.js', __FILE__) );
-          wp_enqueue_script( 'jquery');
-          wp_enqueue_style( 'wppt-style', plugins_url('/css/wppt.css', __FILE__) );
-          wp_enqueue_style( 'simptip-style', plugins_url('/css/simptip.css', __FILE__) );
-      }
+        if ( $hook != 'tools_page_WPPerformanceTester_PluginSettings' ) {
+            return;
+        }
+        wp_enqueue_script( 'chart-js', plugins_url('/js/Chart.js', __FILE__) );
+        wp_enqueue_script( 'jquery');
+        wp_enqueue_style( 'wppt-style', plugins_url('/css/wppt.css', __FILE__) );
+        wp_enqueue_style( 'simptip-style', plugins_url('/css/simptip.css', __FILE__) );
     }
 
     public function addActionsAndFilters() {
 
         // Add options administration page
         // http://plugin.michael-simpson.com/?page_id=47
-        add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
-
+        add_action('admin_menu', array( $this, 'addSettingsSubMenuPage'));
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_style' ) );
-
-
-        // Add Actions & Filters
-        // http://plugin.michael-simpson.com/?page_id=37
-
-
-        // Adding scripts & styles to all pages
-        // Examples:
-        //        wp_enqueue_script('jquery');
-        //        wp_enqueue_style('my-style', plugins_url('/css/my-style.css', __FILE__));
-        //        wp_enqueue_script('my-script', plugins_url('/js/my-script.js', __FILE__));
-
-
-        // Register short codes
-        // http://plugin.michael-simpson.com/?page_id=39
-
-
-        // Register AJAX hooks
-        // http://plugin.michael-simpson.com/?page_id=41
-
     }
-
-
 }
-
