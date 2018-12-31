@@ -39,9 +39,9 @@ $WPPerformanceTester_minimalRequiredPhpVersion = '5.0';
 function WPPerformanceTester_noticePhpVersionWrong() {
     global $WPPerformanceTester_minimalRequiredPhpVersion;
     echo '<div class="updated fade">' .
-      __('Error: plugin "WP Performance Tester" requires a newer version of PHP to be running.',  'wp-performance-tester').
-            '<br/>' . __('Minimal version of PHP required: ', 'wp-performance-tester') . '<strong>' . $WPPerformanceTester_minimalRequiredPhpVersion . '</strong>' .
-            '<br/>' . __('Your server\'s PHP version: ', 'wp-performance-tester') . '<strong>' . phpversion() . '</strong>' .
+      esc_html__('Error: plugin "WP Performance Tester" requires a newer version of PHP to be running.',  'wp-performance-tester').
+            '<br/>' . esc_html__('Minimal version of PHP required: ', 'wp-performance-tester') . '<strong>' . esc_html( $WPPerformanceTester_minimalRequiredPhpVersion ) . '</strong>' .
+            '<br/>' . esc_html__('Your server\'s PHP version: ', 'wp-performance-tester') . '<strong>' . esc_html( phpversion() ) . '</strong>' .
          '</div>';
 }
 
@@ -79,8 +79,8 @@ WPPerformanceTester_i18n_init();
 
 // Next, run the version check.
 // If it is successful, continue with initialization for this plugin
-if (WPPerformanceTester_PhpVersionCheck()) {
+if ( WPPerformanceTester_PhpVersionCheck() ) {
     // Only load and run the init function if we know PHP version can parse it
-    include_once('wp-performance-tester_init.php');
-    WPPerformanceTester_init(__FILE__);
+    require_once( 'wp-performance-tester_init.php' );
+    WPPerformanceTester_init( __FILE__ );
 }
