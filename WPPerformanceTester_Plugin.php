@@ -12,7 +12,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
             wp_die(__('You do not have sufficient permissions to access this page.', 'TEXT-DOMAIN'));
         }
         $performTest = false;
-        if ($_POST['performTest'] == true){
+        if ( isset($_POST['performTest'] ) && $_POST['performTest'] == true){
             $performTest=true;
         }
         ?>
