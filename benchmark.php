@@ -63,12 +63,20 @@ function test_math(&$arr_return, $count = 99999)
 {
     $time_start = microtime(true);
 
-    $mathFunctions = array("abs", "acos", "asin", "atan", "bindec", "floor", "exp", "sin", "tan", "pi", "is_finite", "is_nan", "sqrt");
+    $mathFunctions = array("abs", "acos", "asin", "atan", "bindec", "floor", "exp", "sin", "tan", "is_finite", "is_nan", "sqrt");
     for ($i = 0; $i < $count; $i++) {
         foreach ($mathFunctions as $function) {
             $r = call_user_func_array($function, array($i));
         }
     }
+    $mathFunctions = array("pi");
+    for ($i = 0; $i < $count; $i++) {
+        foreach ($mathFunctions as $function) {
+            $r = call_user_func($function);
+        }
+    }
+    
+    
 
     $arr_return['benchmark']['math'] = timer_diff($time_start);
 }
