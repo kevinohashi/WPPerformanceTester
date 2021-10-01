@@ -148,7 +148,7 @@ class WPPerformanceTester_LifeCycle extends WPPerformanceTester_InstallIndicator
                          $displayName,
                          'manage_options',
                          $this->getSettingsSlug(),
-                         array(&$this, 'settingsPage'));
+                         array( $this, 'settingsPage'));
     }
 
     protected function addSettingsSubMenuPageToToolsMenu() {
@@ -159,7 +159,7 @@ class WPPerformanceTester_LifeCycle extends WPPerformanceTester_InstallIndicator
                          $displayName,
                          'manage_options',
                          $this->getSettingsSlug(),
-                         array(&$this, 'settingsPage'));
+                         array( $this, 'settingsPage'));
     }
 
 
@@ -170,7 +170,7 @@ class WPPerformanceTester_LifeCycle extends WPPerformanceTester_InstallIndicator
                          $displayName,
                          'manage_options',
                          $this->getSettingsSlug(),
-                         array(&$this, 'settingsPage'));
+                         array( $this, 'settingsPage'));
     }
 
     /**
@@ -190,9 +190,9 @@ class WPPerformanceTester_LifeCycle extends WPPerformanceTester_InstallIndicator
      * Convenience function for creating AJAX URLs.
      *
      * @param $actionName string the name of the ajax action registered in a call like
-     * add_action('wp_ajax_actionName', array(&$this, 'functionName'));
+     * add_action('wp_ajax_actionName', array($this, 'functionName'));
      *     and/or
-     * add_action('wp_ajax_nopriv_actionName', array(&$this, 'functionName'));
+     * add_action('wp_ajax_nopriv_actionName', array($this, 'functionName'));
      *
      * If have an additional parameters to add to the Ajax call, e.g. an "id" parameter,
      * you could call this function and append to the returned string like:
