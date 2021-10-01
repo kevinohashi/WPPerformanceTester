@@ -2,7 +2,7 @@ WPPerformanceTester
 ===================
 
 
-WPPerformanceTester was written as a tool to benchmark WordPress in the [WordPress Hosting Performance Benchmarks (2015)](http://reviewsignal.com/blog/2015/07/28/wordpress-hosting-performance-benchmarks-2015/) by [Review Signal](http://reviewsignal.com). It was designed to test the server's performance by stressing PHP, MySql and running $wpdb queries. 
+WPPerformanceTester was written as a tool to benchmark WordPress in the [WordPress Hosting Performance Benchmarks (2015)](http://reviewsignal.com/blog/2015/07/28/wordpress-hosting-performance-benchmarks-2015/) by [Review Signal](http://reviewsignal.com). Current benchmarks are on [WPHostingBenchmarks.com](https://wphostingbenchmarks.com). It was designed to test the server's performance by stressing PHP, MySql and running $wpdb queries. 
 
 WPPerformanceTester performs the following tests
 
@@ -43,6 +43,10 @@ If the script times out (max_execution_time limit) it will not show any results.
 
 Changelog
 -------------
+** 1.1.1 **
+
+(Oct 1, 2021) Minor bug fixes.
+
 ** 1.1 **
 
 Added support for hyperdb and socket connections.

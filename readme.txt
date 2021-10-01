@@ -2,15 +2,15 @@
 Contributors: kohashi
 Tags: performance, admin, benchmark
 Requires at least: 3.5
-Tested up to: 5.0
-Stable tag: 1.1
+Tested up to: 5.8.1
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 WPPerformanceTester benchmarks your server's performance through a variety of PHP, MySql and WordPress tests
 
 == Description ==
-WPPerformanceTester was written as a tool to benchmark WordPress in the [WordPress Hosting Performance Benchmarks (2015)](http://reviewsignal.com/blog/2015/07/28/wordpress-hosting-performance-benchmarks-2015/) by [Review Signal](http://reviewsignal.com). It was designed to test the server's performance by stressing PHP, MySql and running $wpdb queries. 
+WPPerformanceTester was written as a tool to benchmark WordPress in the [WordPress Hosting Performance Benchmarks (2015)](http://reviewsignal.com/blog/2015/07/28/wordpress-hosting-performance-benchmarks-2015/) by [Review Signal](http://reviewsignal.com). Current benchmarks are on [WPHostingBenchmarks.com](https://wphostingbenchmarks.com). It was designed to test the server's performance by stressing PHP, MySql and running $wpdb queries. 
 
 WPPerformanceTester performs the following tests
 
@@ -29,6 +29,10 @@ Download the plugin and install it into your *wp-content/plugins* folder.
 Once activated, it should appear under the **Tools** section of your *wp-admin*.
 
 == Changelog ==
+= 1.1.1 =
+
+(Oct 1, 2021) Minor bug fixes.
+
 = 1.1 =
 
 Added support for hyperdb and socket connections.

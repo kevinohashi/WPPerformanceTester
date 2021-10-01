@@ -2,7 +2,7 @@
 /*
    Plugin Name: WP Performance Tester
    Plugin URI: http://wordpress.org/extend/plugins/wp-performance-tester/
-   Version: 0.1
+   Version: 1.1.1
    Author: <a href="http://reviewsignal.com">Kevin Ohashi</a>
    Description: Tests WordPress Performance
    Text Domain: wp-performance-tester
