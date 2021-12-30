@@ -32,15 +32,16 @@ $arr_cfg = array();
 function test_benchmark($arr_cfg)
 {
 
-    $time_start = microtime(true);
 
     $arr_return = array();
-    $arr_return['version'] = '1.1';
+    $arr_return['version'] = '1.6';
     $arr_return['sysinfo']['time'] = date("Y-m-d H:i:s");
     $arr_return['sysinfo']['php_version'] = PHP_VERSION;
     $arr_return['sysinfo']['platform'] = PHP_OS;
     $arr_return['sysinfo']['server_name'] = $_SERVER['SERVER_NAME'];
     $arr_return['sysinfo']['server_addr'] = $_SERVER['SERVER_ADDR'];
+
+    $time_start = microtime(true);
 
     test_math($arr_return);
 
@@ -63,11 +64,20 @@ function test_math(&$arr_return, $count = 99999)
 {
     $time_start = microtime(true);
 
-    $mathFunctions = array("abs", "acos", "asin", "atan", "bindec", "floor", "exp", "sin", "tan", "pi", "is_finite", "is_nan", "sqrt");
     for ($i = 0; $i < $count; $i++) {
-        foreach ($mathFunctions as $function) {
-            $r = call_user_func_array($function, array($i));
-        }
+        sin($i);
+        asin($i);
+        cos($i);
+        acos($i);
+        tan($i);
+        atan($i);
+        abs($i);
+        floor($i);
+        exp($i);
+        is_finite($i);
+        is_nan($i);
+        sqrt($i);
+        log10($i);
     }
 
     $arr_return['benchmark']['math'] = timer_diff($time_start);
@@ -76,13 +86,20 @@ function test_math(&$arr_return, $count = 99999)
 function test_string(&$arr_return, $count = 99999)
 {
     $time_start = microtime(true);
-    $stringFunctions = array("addslashes", "chunk_split", "metaphone", "strip_tags", "md5", "sha1", "strtoupper", "strtolower", "strrev", "strlen", "soundex", "ord");
-
     $string = 'the quick brown fox jumps over the lazy dog';
     for ($i = 0; $i < $count; $i++) {
-        foreach ($stringFunctions as $function) {
-            $r = call_user_func_array($function, array($string));
-        }
+        addslashes($string);
+        chunk_split($string);
+        metaphone($string);
+        strip_tags($string);
+        md5($string);
+        sha1($string);
+        strtoupper($string);
+        strtolower($string);
+        strrev($string);
+        strlen($string);
+        soundex($string);
+        ord($string);
     }
     $arr_return['benchmark']['string'] = timer_diff($time_start);
 }
@@ -145,14 +162,14 @@ function test_mysql(&$arr_return, $arr_cfg)
     // //$arr_return['sysinfo']['mysql_version'] = '';
 
 
-    $arr_return['benchmark']['mysql_select_db'] = timer_diff($time_start);
+    //$arr_return['benchmark']['mysql_select_db'] = timer_diff($time_start);
 
     $result = mysqli_query($link, 'SELECT VERSION() as version;');
     $arr_row = mysqli_fetch_assoc($result);
     $arr_return['sysinfo']['mysql_version'] = $arr_row['version'];
     $arr_return['benchmark']['mysql_query_version'] = timer_diff($time_start);
 
-    $query = "SELECT BENCHMARK(1000000,ENCODE('hello',RAND()));";
+    $query = "SELECT BENCHMARK(5000000, AES_ENCRYPT(CONCAT('WPHostingBenchmarks.com',RAND()), UNHEX(SHA2('is part of Review Signal.com',512))))";
     $result = mysqli_query($link, $query);
     $arr_return['benchmark']['mysql_query_benchmark'] = timer_diff($time_start);
 

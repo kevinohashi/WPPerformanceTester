@@ -10,7 +10,7 @@ WPPerformanceTester performs the following tests
 - String Manipulation - 100,000 string manipulation tests
 - Loops - 1,000,000 loop iterations
 - Conditionals - 1,000,000 conditional logic checks
-- MySql (connect, select, version, encode) - basic mysql functions and 1,000,000 ENCODE() iterations
+- MySql (connect, select, version, aes_encrypt) - basic mysql functions and 5,000,000 AES_ENCRYPT() iterations
 - \$wpdb - 250 insert, select, update and delete operations through \$wpdb
 
 It also allows you to see how your server's performance stacks up against our industry benchmark. Our industry benchmark is the average of all submitted test results.
@@ -43,6 +43,20 @@ If the script times out (max_execution_time limit) it will not show any results.
 
 Changelog
 -------------
+** 2.0.0 **
+
+(December 29, 2021) Major update and version change.
+
+Plugin should now be compatible with latest PHP 8 / MySQL 8.
+
+Benchmarks no longer comparable between versions. Industry benchmarks will only show results from the same version.
+
+benchmark script updated to replace deprecated/broken math functions and mysql functions. Version number in benchmark script reflects version number of current open source library it was based on, NOT WPPerformanceTester version number.
+
+ENCODE() replaced with AES_ENCRYPT to perform mysql benchmark.
+
+Benchmark graph now uses Chart.js 3.7 instead of 1.x which hopefully helps conflicts with other newer plugins.
+
 ** 1.1.1 **
 
 (Oct 1, 2021) Minor bug fixes.

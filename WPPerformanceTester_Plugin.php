@@ -78,38 +78,61 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 <p>* Lower (faster) time is better. Please submit your results to improve our industry average data :)</p>
                 <script>
                 jQuery(document).ready(function(){
-                    jQuery.getJSON( "https://wphreviews.com/api/wpperformancetester.php", function( industryData ) { 
-                        var ctx = document.getElementById("myChart").getContext("2d");
-                        
-                        var data = {
-                            labels: ["Math (CPU)", "String (CPU)", "Loops (CPU)", "Conditionals (CPU)", "MySql (Database)", "Server Total", "WordPress Performance"],
-                            datasets: [
+                    jQuery.getJSON( "https://wphreviews.com/api/wpperformancetester.php?version=<?php echo $this->getVersion(); ?>", function( industryData ) { 
+
+                        //new code
+                        const labels = ["Math (CPU)", "String (CPU)", "Loops (CPU)", "Conditionals (CPU)", "MySql (Database)", "Server Total", "WordPress Performance"];
+                        const data = {
+                          labels: labels,
+                          datasets: [
                                 {
                                     label: "Your Results",
-                                    fillColor: "rgba(151,187,205,0.5)",
-                                    strokeColor: "rgba(151,187,205,0.8)",
-                                    highlightFill: "rgba(151,187,205,0.75)",
-                                    highlightStroke: "rgba(151,187,205,1)",                                    
+                                    backgroundColor: "rgba(151,187,205,0.5)",
+                                    borderColor: "rgba(151,187,205,0.8)",
+                                    hoverBackgroundColor: "rgba(151,187,205,0.75)",
+                                    hoverBorderColor: "rgba(151,187,205,1)",                                    
                                     data: [<?php echo $arr_benchmark['benchmark']['math']; ?>, <?php echo $arr_benchmark['benchmark']['string']; ?>, <?php echo $arr_benchmark['benchmark']['loops']; ?>, <?php echo $arr_benchmark['benchmark']['ifelse']; ?>, <?php echo $arr_benchmark['benchmark']['mysql_query_benchmark']; ?>, <?php echo $arr_benchmark['total']; ?>, <?php echo $arr_wordpress['time']; ?>]
                                 },
                                 {
                                     label: "Industry Average",
-                                    fillColor: "rgba(130,130,130,0.5)",
-                                    strokeColor: "rgba(130,130,130,0.8)",
-                                    highlightFill: "rgba(130,130,130,0.75)",
-                                    highlightStroke: "rgba(130,130,130,1)",
+                                    backgroundColor: "rgba(130,130,130,0.5)",
+                                    borderColor: "rgba(130,130,130,0.8)",
+                                    hoverBackgroundColor: "rgba(130,130,130,0.75)",
+                                    hoverBorderColor: "rgba(130,130,130,1)",
                                     data: industryData
                                 }
                             ]
                         };
-                        var myChart = new Chart(ctx).Bar(data, {
+                        const config = {
+                          type: 'bar',
+                          data: data,
+                          options: {
+                            scales: {
+                              y: {
+                                beginAtZero: true
+                              }
+                            },
+                            plugins: {
+                              legend: {
+                                display: true
+                              }
+                            }
+                          },
+                        };
+                        var myChart = new Chart(
+                          document.getElementById('myChart'),
+                          config
+                        );
+
+
+                       /* var myChart = new Chart(ctx).Bar(data, {
                             barShowStroke: false,
                             multiTooltipTemplate: "<%= datasetLabel %> - <%= value %> Seconds",
                         });
                         var legendHolder = document.createElement('div');
                         legendHolder.innerHTML = myChart.generateLegend();
 
-                        document.getElementById('legendDiv').appendChild(legendHolder.firstChild);
+                        document.getElementById('legendDiv').appendChild(legendHolder.firstChild);*/
                     });
 
                 });
@@ -145,10 +168,6 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                       <tr>
                         <td><span class="simptip-position-right simptip-smooth" data-tooltip="Time it takes to establish a Mysql Connection">Mysql Connect</span></td>
                         <td><?php echo $arr_benchmark['benchmark']['mysql_connect']; ?></td>
-                      </tr>
-                      <tr>
-                        <td><span class="simptip-position-right simptip-smooth" data-tooltip="Time it takes to select Mysql database">Mysql Select Database</span></td>
-                        <td><?php echo $arr_benchmark['benchmark']['mysql_select_db']; ?></td>
                       </tr>
                       <tr>
                         <td><span class="simptip-position-right simptip-smooth" data-tooltip="Time it takes to query Mysql version information">Mysql Query Version</span></td>
@@ -194,7 +213,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                     <tbody>
                       <tr>
                         <td>WPPerformanceTester Version</td>
-                        <td><?php echo $arr_benchmark['version']; ?></td>
+                        <td><?php echo $this->getVersion(); ?></td>
                       </tr>
                       <tr>
                         <td>System Time</td>
@@ -228,6 +247,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
                 <input type="submit" value="Share Results Only (Do not fill out form)">
                 <input type="hidden" name="benchresult" value="<?php echo urlencode(json_encode($arr_benchmark)); ?>">
                 <input type="hidden" name="wordpressresult" value="<?php echo urlencode(json_encode($arr_wordpress)); ?>">
+                <input type="hidden" name="wpperformancetesterversion" value="<?php echo $this->getVersion(); ?>">
                 <h3>What Web Host do you use?</h3>
                 <input type="text" name="host" length="50" placeholder="Company Name">
                 <h3>Please tell us about your experience</h3>
@@ -260,6 +280,9 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
 
 
 
+        </div>
+        <div style="margin-top:500px;">
+          <a href="https://github.com/kevinohashi/WPPerformanceTester" target="_blank">WPPerformanceTester</a> - Version <?php echo $this->getVersion(); ?>
         </div>
 
         <?php
@@ -343,7 +366,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
         if ( $hook != 'tools_page_WPPerformanceTester_PluginSettings' ) {
             return;
         }
-        wp_enqueue_script( 'chart-js', plugins_url('/js/Chart.js', __FILE__) );
+        wp_enqueue_script( 'chart-js-3-7', plugins_url('/js/Chart.js', __FILE__) );
         wp_enqueue_script( 'jquery');
         wp_enqueue_style( 'wppt-style', plugins_url('/css/wppt.css', __FILE__) );
         wp_enqueue_style( 'simptip-style', plugins_url('/css/simptip.css', __FILE__) );
