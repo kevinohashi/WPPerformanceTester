@@ -43,6 +43,12 @@ If the script times out (max_execution_time limit) it will not show any results.
 
 Changelog
 -------------
+** 2.0.1 **
+
+(April 23, 2024) Minor security update.
+
+Patched CVE-2023-49844. This vulnerability allowed a CSRF which could have let an attacker make an admin to run benchmark unknowingly.
+
 ** 2.0.0 **
 
 (December 29, 2021) Major update and version change.

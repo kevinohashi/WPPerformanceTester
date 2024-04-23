@@ -2,8 +2,8 @@
 Contributors: kohashi
 Tags: performance, admin, benchmark
 Requires at least: 3.5
-Tested up to: 5.8.2
-Stable tag: 2.0.0
+Tested up to: 6.5.2
+Stable tag: 2.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -29,6 +29,13 @@ Download the plugin and install it into your *wp-content/plugins* folder.
 Once activated, it should appear under the **Tools** section of your *wp-admin*.
 
 == Changelog ==
+
+= 2.0.1 =
+
+(April 23, 2024) Minor security update.
+
+Patched CVE-2023-49844. This vulnerability allowed a CSRF which could have let an attacker make an admin to run benchmark unknowingly.
+
 = 2.0.0 =
 
 (December 29, 2021) Major update and version change.

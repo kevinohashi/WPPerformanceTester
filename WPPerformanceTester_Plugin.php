@@ -14,7 +14,12 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
         }
         $performTest = false;
         if ( !empty( $_POST['performTest'] ) && ( $_POST['performTest'] == true ) ) {
-            $performTest=true;
+            //verify nonce
+            if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ '_wpnonce' ] ) ) ) ) {
+                wp_die( 'Invalid Request. Reload to try again.' );
+            }else{
+                $performTest=true;
+            }
         }
         ?>
         <div class="wrap">
@@ -23,6 +28,7 @@ class WPPerformanceTester_Plugin extends WPPerformanceTester_LifeCycle {
 
             <form method="post" action="<?php echo esc_url( admin_url('tools.php?page=WPPerformanceTester_PluginSettings') ); ?>">
                 <input type="hidden" name="performTest" value="true">
+                <?php wp_nonce_field(); ?>
                 <input type="submit" value="Begin Performance Test" onclick="this.value='This may take a minute...'">
             </form>
 
